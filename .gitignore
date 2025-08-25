@@ -1,0 +1,10 @@
+node_modules
+package-lock.json
+package-lock.json*
+yarn.lock
+.env.development
+.env
+.env.production
+desktop.ini
+src/.DS_Store
+.DS_Store

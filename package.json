@@ -1,0 +1,34 @@
+{
+  "name": "cross-chain-trading-api",
+  "version": "1.0.0",
+  "description": "Modular Express.js API for cross-chain trading between Polygon and Gnosis",
+  "keywords": [
+    "cross-chain",
+    "trading",
+    "polygon",
+    "gnosis",
+    "defi",
+    "express",
+    "api",
+    "modular"
+  ],
+  "license": "MIT",
+  "author": "vannsoklay",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@ensofinance/sdk": "^1.1.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "viem": "^2.34.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
