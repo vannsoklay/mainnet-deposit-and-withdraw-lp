@@ -6,7 +6,7 @@ import {
   enso,
   account,
 } from "../config/clients.js";
-import { destinationChain, TOKEN_ADDRESSES } from "../config/chains.js";
+import { TOKEN_ADDRESSES } from "../config/chains.js";
 import {
   withTimeout,
   getDynamicGasPrice,
@@ -45,7 +45,7 @@ const executeApproval = async (spender, amount, retries = 3) => {
         to: TOKEN_ADDRESSES.LP_GNOSIS,
         data: approvalData,
         value: 0n,
-        chainId: destinationChain.id,
+        chainId: gnosis.id,
         gas: estimatedGas,
         gasPrice,
       });
@@ -192,7 +192,7 @@ router.post("/", async (req, res) => {
       to,
       data,
       value: BigInt(value || "0"),
-      chainId: destinationChain.id,
+      chainId: gnosis.id,
       gas: estimatedGas,
       gasPrice,
     });

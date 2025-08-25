@@ -6,11 +6,8 @@ import {
   enso,
   account,
 } from "../config/clients.js";
-import {
-  sourceChain,
-  destinationChain,
-  TOKEN_ADDRESSES,
-} from "../config/chains.js";
+import { TOKEN_ADDRESSES } from "../config/chains.js";
+import { gnosis, polygon } from "viem/chains";
 
 const app = express();
 const router = app.router;
@@ -66,8 +63,8 @@ router.post("/", async (req, res) => {
     // Get route
     console.log("🔍 Getting route data...");
     const route = await enso.getRouteData({
-      chainId: sourceChain.id,
-      destinationChainId: destinationChain.id,
+      chainId: polygon.id,
+      destinationChainId: gnosis.id,
       tokenIn: [tokenInAddress],
       tokenOut: [lpTokenAddress],
       amountIn: [amountInWei.toString()],
@@ -221,8 +218,8 @@ router.post("/quote", async (req, res) => {
 
     // Get route for quote
     const route = await enso.getRouteData({
-      chainId: sourceChain.id,
-      destinationChainId: destinationChain.id,
+      chainId: polygon.id,
+      destinationChainId: gnosis.id,
       tokenIn: [tokenInAddress],
       tokenOut: [lpTokenAddress],
       amountIn: [amountInWei.toString()],

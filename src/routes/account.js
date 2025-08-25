@@ -9,7 +9,6 @@ const router = express.Router();
 // Helper function to safely format token info
 const formatTokenInfo = (tokenInfo) => {
   if (!tokenInfo) return null;
-
   return {
     name: tokenInfo.name,
     symbol: tokenInfo.symbol,

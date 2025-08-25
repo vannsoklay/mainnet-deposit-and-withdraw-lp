@@ -20,12 +20,12 @@ router.get("/:txHash", async (req, res) => {
       });
     }
 
-    // if (!tokenAddress) {
-    //   return res.status(400).json({
-    //     error: "tokenAddress query parameter is required",
-    //     example: "/monitor/0x123...?tokenAddress=0xabc...&maxWaitMinutes=30",
-    //   });
-    // }
+    if (!tokenAddress) {
+      return res.status(400).json({
+        error: "tokenAddress query parameter is required",
+        example: "/monitor/0x123...?tokenAddress=0xabc...&maxWaitMinutes=30",
+      });
+    }
 
     const fromAddress = account.address;
 

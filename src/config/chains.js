@@ -1,7 +1,7 @@
 import { polygon, gnosis } from "viem/chains";
 
 // Define chains with proper RPC URLs
-export const sourceChain = {
+export const polygonChain = {
   ...polygon,
   rpcUrls: {
     default: {
@@ -13,7 +13,7 @@ export const sourceChain = {
   },
 };
 
-export const destinationChain = {
+export const gnosisChain = {
   ...gnosis,
   rpcUrls: {
     default: {
