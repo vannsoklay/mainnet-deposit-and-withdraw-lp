@@ -1,5 +1,5 @@
 import express from "express";
-import { sourceClient, destinationClient, account } from "../config/clients.js";
+import { polygonClient, gnosisClient, account } from "../config/clients.js";
 import { monitorCrossChainTransaction } from "../utils/helpers.js";
 
 const app = express();
@@ -38,7 +38,7 @@ router.get("/:txHash", async (req, res) => {
       txHash,
       tokenAddress,
       fromAddress,
-      destinationClient,
+      gnosisClient,
       parseInt(maxWaitMinutes)
     );
 
@@ -89,10 +89,10 @@ router.get("/status/:chain/:txHash", async (req, res) => {
     let client, explorerUrl;
 
     if (chain.toLowerCase() === "polygon") {
-      client = sourceClient;
+      client = polygonClient;
       explorerUrl = `https://polygonscan.com/tx/${txHash}`;
     } else if (chain.toLowerCase() === "gnosis") {
-      client = destinationClient;
+      client = gnosisClient;
       explorerUrl = `https://gnosisscan.io/tx/${txHash}`;
     } else {
       return res.status(400).json({

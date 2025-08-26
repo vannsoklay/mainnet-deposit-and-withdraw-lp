@@ -1,7 +1,7 @@
 import express from "express";
 import { parseUnits, formatUnits, encodeFunctionData, erc20Abi } from "viem";
 import {
-  destinationClient,
+  gnosisClient,
   walletGnosisClient,
   enso,
   account,
@@ -19,7 +19,7 @@ const router = app.router;
 
 // Execute approval with retry logic
 const executeApproval = async (spender, amount, retries = 3) => {
-  const gasPrice = await getDynamicGasPrice(destinationClient);
+  const gasPrice = await getDynamicGasPrice(gnosisClient);
 
   for (let i = 0; i < retries; i++) {
     try {
@@ -32,7 +32,7 @@ const executeApproval = async (spender, amount, retries = 3) => {
       });
 
       const estimatedGas = await estimateGasWithBuffer(
-        destinationClient,
+        gnosisClient,
         {
           to: TOKEN_ADDRESSES.LP_GNOSIS,
           data: approvalData,
@@ -53,7 +53,7 @@ const executeApproval = async (spender, amount, retries = 3) => {
       console.log(`📝 Approval hash (attempt ${i + 1}):`, approvalHash);
 
       await withTimeout(
-        destinationClient.waitForTransactionReceipt({ hash: approvalHash }),
+        gnosisClient.waitForTransactionReceipt({ hash: approvalHash }),
         240_000,
         "Approval confirmation"
       );
@@ -105,7 +105,7 @@ router.post("/", async (req, res) => {
     console.log(`📍 From address: ${fromAddress}`);
 
     // Check balance
-    const balance = await destinationClient.readContract({
+    const balance = await gnosisClient.readContract({
       address: lpTokenAddress,
       abi: erc20Abi,
       functionName: "balanceOf",
@@ -160,7 +160,7 @@ router.post("/", async (req, res) => {
 
     // Check and handle approval
     console.log("🔍 Checking LP token allowance...");
-    const allowance = await destinationClient.readContract({
+    const allowance = await gnosisClient.readContract({
       address: lpTokenAddress,
       abi: erc20Abi,
       functionName: "allowance",
@@ -177,9 +177,9 @@ router.post("/", async (req, res) => {
 
     // Execute main transaction
     console.log("🚀 Executing withdraw transaction...");
-    const gasPrice = await getDynamicGasPrice(destinationClient);
+    const gasPrice = await getDynamicGasPrice(gnosisClient);
     const estimatedGas = await estimateGasWithBuffer(
-      destinationClient,
+      gnosisClient,
       {
         to,
         data,
@@ -199,7 +199,7 @@ router.post("/", async (req, res) => {
 
     console.log(`🚀 Withdraw transaction sent: ${txHash}`);
     const receipt = await withTimeout(
-      destinationClient.waitForTransactionReceipt({ hash: txHash }),
+      gnosisClient.waitForTransactionReceipt({ hash: txHash }),
       300_000,
       "Transaction confirmation"
     );

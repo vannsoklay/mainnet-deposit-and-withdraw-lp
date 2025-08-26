@@ -1,7 +1,7 @@
 import express from "express";
 import { parseUnits, formatUnits, encodeFunctionData, erc20Abi } from "viem";
 import {
-  sourceClient,
+  polygonClient,
   walletPolygonClient,
   enso,
   account,
@@ -90,7 +90,7 @@ router.post("/", async (req, res) => {
 
     // Check and handle approval
     console.log("🔍 Checking token allowance...");
-    const allowance = await sourceClient.readContract({
+    const allowance = await polygonClient.readContract({
       address: tokenInAddress,
       abi: erc20Abi,
       functionName: "allowance",
@@ -131,7 +131,7 @@ router.post("/", async (req, res) => {
     });
 
     console.log(`🚀 Deposit transaction sent: ${txHash}`);
-    const receipt = await sourceClient.waitForTransactionReceipt({
+    const receipt = await polygonClient.waitForTransactionReceipt({
       hash: txHash,
     });
     console.log("✅ Deposit transaction confirmed on Polygon");

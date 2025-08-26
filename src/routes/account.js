@@ -1,6 +1,6 @@
 import express from "express";
 import { formatUnits } from "viem";
-import { sourceClient, destinationClient, account } from "../config/clients.js";
+import { polygonClient, gnosisClient, account } from "../config/clients.js";
 import { TOKEN_ADDRESSES } from "../config/chains.js";
 import { getTokenInfo, safeBigIntToString } from "../utils/helpers.js";
 
@@ -26,14 +26,14 @@ router.get("/", async (req, res) => {
 
     // Get balances from both chains
     const [polygonBalance, gnosisBalance] = await Promise.all([
-      getTokenInfo(sourceClient, TOKEN_ADDRESSES.EURe_POLYGON, fromAddress),
-      getTokenInfo(destinationClient, TOKEN_ADDRESSES.LP_GNOSIS, fromAddress),
+      getTokenInfo(polygonClient, TOKEN_ADDRESSES.EURe_POLYGON, fromAddress),
+      getTokenInfo(gnosisClient, TOKEN_ADDRESSES.LP_GNOSIS, fromAddress),
     ]);
 
     // Get native token balances (MATIC and xDAI)
     const [maticBalance, xdaiBalance] = await Promise.all([
-      sourceClient.getBalance({ address: fromAddress }),
-      destinationClient.getBalance({ address: fromAddress }),
+      polygonClient.getBalance({ address: fromAddress }),
+      gnosisClient.getBalance({ address: fromAddress }),
     ]);
 
     // Safely format all the data
@@ -119,7 +119,7 @@ router.get("/balance/:chain/:token", async (req, res) => {
 
     // Determine client and token address based on parameters
     if (chain.toLowerCase() === "polygon") {
-      client = sourceClient;
+      client = polygonClient;
       if (token.toLowerCase() === "eure") {
         tokenAddress = TOKEN_ADDRESSES.EURe_POLYGON;
       } else {
@@ -130,7 +130,7 @@ router.get("/balance/:chain/:token", async (req, res) => {
         });
       }
     } else if (chain.toLowerCase() === "gnosis") {
-      client = destinationClient;
+      client = gnosisClient;
       if (token.toLowerCase() === "lp") {
         tokenAddress = TOKEN_ADDRESSES.LP_GNOSIS;
       } else {

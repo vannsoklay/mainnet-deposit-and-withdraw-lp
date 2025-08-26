@@ -25,12 +25,12 @@ export const walletGnosisClient = createWalletClient({
 });
 
 // Public clients for reading blockchain data
-export const sourceClient = createPublicClient({
+export const polygonClient = createPublicClient({
   chain: polygonChain,
   transport: http("https://polygon-rpc.com"),
 });
 
-export const destinationClient = createPublicClient({
+export const gnosisClient = createPublicClient({
   chain: gnosisChain,
   transport: http("https://rpc.gnosischain.com"),
 });
